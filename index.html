@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sayan Chakraborty — NYU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --bg-elevated: #12151c;
+  --bg-card: #171b24;
+  --border: #1e2330;
+  --border-hover: #2a3040;
+  --text: #e4e8f0;
+  --text-secondary: #8891a5;
+  --text-muted: #5a6275;
+  --accent: #4fd1c5;
+  --accent-dim: #2a7a72;
+  --accent-glow: rgba(79, 209, 197, 0.12);
+  --accent-2: #63b3ed;
+  --warning: #f6ad55;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Instrument Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Animated grid background */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(79,209,197,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,209,197,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.grid-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,209,197,0.06), transparent 70%);
+}
+
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(10,12,16,0.82);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.nav-inner {
+  max-width: 1120px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 60px;
+}
+.nav-logo {
+  font-family: var(--font-mono);
+  font-weight: 500; font-size: 0.9rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+.nav-logo span { color: var(--text-muted); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1.5px; background: var(--accent);
+  transition: width 0.25s ease;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+.hamburger { display: none; cursor: pointer; background: none; border: none; padding: 4px; }
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text-secondary); margin: 5px 0;
+  transition: 0.3s;
+}
+
+/* ---- HERO ---- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 2rem 80px;
+}
+.hero-inner {
+  max-width: 1120px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+.hero-text { z-index: 1; }
+.hero-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.hero-label::before {
+  content: ''; width: 28px; height: 1.5px; background: var(--accent);
+}
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.hero-title {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+.hero-title strong { color: var(--accent); font-weight: 600; }
+.hero-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 520px;
+  margin-bottom: 2rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem; font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.25s;
+  cursor: pointer; border: none;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover { background: #5ee0d4; box-shadow: 0 0 24px rgba(79,209,197,0.3); }
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-visual {
+  position: relative;
+  display: flex; justify-content: center; align-items: center;
+}
+.hero-photo-wrapper {
+  position: relative;
+  width: 320px; height: 380px;
+}
+.hero-photo-frame {
+  width: 100%; height: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  overflow: hidden;
+  position: relative;
+}
+.hero-photo-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(10%);
+  transition: filter 0.4s;
+}
+.hero-photo-frame:hover img { filter: grayscale(0%); }
+.photo-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  gap: 0.8rem;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-elevated));
+}
+.photo-placeholder svg { opacity: 0.3; }
+.hero-photo-decor {
+  position: absolute;
+  width: 100%; height: 100%;
+  top: 12px; left: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--accent-dim);
+  z-index: -1;
+  opacity: 0.4;
+}
+.hero-stats {
+  display: flex; gap: 2rem; margin-top: 2.5rem;
+  padding-top: 2rem; border-top: 1px solid var(--border);
+}
+.stat { text-align: left; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 1.8rem; color: var(--text);
+}
+.stat-label {
+  font-size: 0.75rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* ---- SECTIONS ---- */
+section {
+  position: relative; z-index: 1;
+  padding: 100px 2rem;
+}
+.container { max-width: 1120px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.section-label::before {
+  content: ''; width: 20px; height: 1.5px; background: var(--accent);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.section-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+
+/* ---- ABOUT ---- */
+#about { background: var(--bg-elevated); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.8;
+}
+.skills-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.skill-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+  transition: all 0.25s;
+}
+.skill-card:hover {
+  border-color: var(--accent-dim);
+  background: rgba(79,209,197,0.03);
+}
+.skill-card h4 {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.skill-card p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ---- RESEARCH / PROJECTS ---- */
+.research-grid {
+  display: grid; gap: 1.5rem;
+}
+.research-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem 2.2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.research-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.research-card:hover {
+  border-color: var(--accent-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+.research-card:hover::before { opacity: 1; }
+.research-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.5px;
+}
+.research-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+}
+.research-card .desc-placeholder {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  font-style: italic;
+  padding: 1rem;
+  background: rgba(79,209,197,0.03);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.research-card .pub-links {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;
+}
+.pub-link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.pub-link:hover { color: var(--accent); border-color: var(--accent-dim); }
+
+/* ---- EXPERIENCE ---- */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 0;
+  width: 1px; height: 100%;
+  background: linear-gradient(to bottom, var(--accent), var(--border));
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+  padding-left: 1.5rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute; left: -2.35rem; top: 6px;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+.timeline-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.timeline-item h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+.timeline-item .location {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+.timeline-item p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ---- PUBLICATIONS ---- */
+.pub-list { display: grid; gap: 1rem; }
+.pub-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem 1.8rem;
+  transition: border-color 0.25s;
+}
+.pub-item:hover { border-color: var(--accent-dim); }
+.pub-type {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--warning);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.pub-item h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+.pub-item .authors {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+.pub-item .authors strong { color: var(--accent); font-weight: 600; }
+.pub-item .venue {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.pub-item .venue a {
+  color: var(--accent);
+  text-decoration: none;
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  margin-left: 0.4rem;
+}
+.pub-item .venue a:hover { text-decoration: underline; }
+
+/* ---- EDUCATION ---- */
+.edu-grid { display: grid; gap: 1.5rem; }
+.edu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem 2rem;
+  display: grid; grid-template-columns: auto 1fr; gap: 1.5rem;
+  align-items: start;
+  transition: border-color 0.25s;
+}
+.edu-card:hover { border-color: var(--accent-dim); }
+.edu-icon {
+  width: 48px; height: 48px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-dim);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+.edu-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+.edu-card .degree {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.2rem;
+}
+.edu-card .advisor {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.edu-card .period {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+/* ---- AWARDS ---- */
+.awards-list { display: grid; gap: 0.8rem; }
+.award-item {
+  display: flex; align-items: start; gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.25s;
+}
+.award-item:hover { border-color: var(--accent-dim); }
+.award-year {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 48px;
+}
+.award-item p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ---- CONTACT ---- */
+#contact { background: var(--bg-elevated); }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+}
+.contact-info-item {
+  display: flex; align-items: start; gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.contact-icon {
+  width: 40px; height: 40px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-dim);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.contact-icon svg { width: 18px; height: 18px; stroke: var(--accent); }
+.contact-info-item h4 {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.contact-info-item p, .contact-info-item a {
+  font-size: 0.95rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.contact-info-item a:hover { color: var(--accent); }
+
+.social-links {
+  display: flex; gap: 0.8rem; margin-top: 2rem;
+}
+.social-link {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.social-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+.social-link svg { width: 18px; height: 18px; }
+
+.contact-map {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex; align-items: center; justify-content: center;
+}
+.map-placeholder {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 2rem;
+}
+.map-placeholder svg { margin-bottom: 0.8rem; opacity: 0.4; }
+
+/* ---- FOOTER ---- */
+footer {
+  position: relative; z-index: 1;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+footer p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ---- ANIMATIONS ---- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-visual { order: -1; }
+  .hero-photo-wrapper { width: 240px; height: 290px; }
+  .hero-desc { margin-left: auto; margin-right: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-label { justify-content: center; }
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .edu-card { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  section { padding: 60px 1.2rem; }
+  .hero { padding: 100px 1.2rem 60px; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 60px; left: 0; right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    gap: 1.2rem;
+  }
+  .hamburger { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">SC<span>@nyu</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-label">PhD Candidate</div>
+      <h1 class="hero-name">Sayan<br>Chakraborty</h1>
+      <p class="hero-title">Adversarial RL · Cybersecurity · <strong>NYU</strong></p>
+      <p class="hero-desc">
+        Building secure, resilient, and provably safe AI systems for cyber-physical environments.
+        I work at the intersection of reinforcement learning, control theory, and cybersecurity
+        at the Control and Networks (CAN) Lab, New York University.
+      </p>
+      <div class="hero-actions">
+        <a href="mailto:sc8804@nyu.edu" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="12" height="9" rx="1"/><path d="M2 4l6 5 6-5"/></svg>
+          Get in touch
+        </a>
+        <a href="#research" class="btn btn-outline">View research →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Publications</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Patents</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Years Research</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-photo-wrapper">
+        <div class="hero-photo-frame">
+          <!-- Replace the placeholder below with: <img src="your-photo.jpg" alt="Sayan Chakraborty"> -->
+          <div class="photo-placeholder">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg>
+            <span>Your photo here</span>
+          </div>
+        </div>
+        <div class="hero-photo-decor"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <div class="section-label">About</div>
+        <h2 class="section-title">Securing Intelligent Systems Against Adversarial Threats</h2>
+        <p>
+          I am a PhD candidate in Electrical and Computer Engineering at New York University,
+          working under the supervision of Prof. Zhong-Ping Jiang at the Control and Networks (CAN) Lab.
+          My research focuses on making reinforcement learning and control systems resilient
+          to cyberattacks, specifically Denial-of-Service, sensor corruption, and communication failures.
+        </p>
+        <p>
+          I combine rigorous control-theoretic analysis with modern deep RL to design agents
+          that maintain provable safety and stability guarantees even under worst-case adversarial
+          disruptions. My work spans the full pipeline from theory to deployment — including
+          embedded systems on NVIDIA Jetson AGX, hardware-in-the-loop testing, and real-world
+          autonomous driving experiments.
+        </p>
+        <p>
+          Previously, I earned my M.Tech from IIT Hyderabad and B.Tech from NIT Silchar.
+          I've also worked as a Control Systems Engineer Intern at ClearMotion, developing
+          real-time 3D motion planners for active suspension systems.
+        </p>
+      </div>
+      <div class="fade-in" style="animation-delay: 0.1s">
+        <div class="skills-grid">
+          <div class="skill-card">
+            <h4>🛡 Cybersecurity & RL</h4>
+            <p>DoS/DDoS modeling, attack-resilient estimation, provable robust policy learning</p>
+          </div>
+          <div class="skill-card">
+            <h4>🧠 Machine Learning</h4>
+            <p>Deep RL, LLMs, PyTorch, data-driven modeling, training pipelines</p>
+          </div>
+          <div class="skill-card">
+            <h4>⚙️ Control & Estimation</h4>
+            <p>Robust & nonlinear control, Kalman filtering, sensor fusion, motion planning</p>
+          </div>
+          <div class="skill-card">
+            <h4>🔧 Simulation & Prototyping</h4>
+            <p>MATLAB, Simulink, CasADi, SUMO, system identification</p>
+          </div>
+          <div class="skill-card">
+            <h4>📟 Embedded Systems</h4>
+            <p>NVIDIA Jetson AGX, Embedded Linux, C/C++, real-time control</p>
+          </div>
+          <div class="skill-card">
+            <h4>🔬 Experimental Tools</h4>
+            <p>IMU, camera, GPS, HIL testing, data acquisition, oscilloscope debugging</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH PROJECTS -->
+<section id="research">
+  <div class="container">
+    <div class="section-label fade-in">Research</div>
+    <h2 class="section-title fade-in">Selected Projects</h2>
+    <p class="section-desc fade-in">
+      Each project addresses a core challenge in building resilient, safe, and intelligent cyber-physical systems.
+    </p>
+    <div class="research-grid">
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Adversarial RL · Cybersecurity</span>
+        <h3>Cyber-Physical Security via Small-Gain Theory</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IEEE Control Systems Letters 2025 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (IEEE CSL 2025)</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Resilient Learning · DoS Attacks</span>
+        <h3>Robust Learning-Based Output Regulation Under DoS Attacks</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IEEE Transactions on Automatic Control 2025 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (IEEE TAC 2025)</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Active Learning · Resilient Control</span>
+        <h3>Active Learning-Based Control Under DoS Attacks</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IEEE Control Systems Letters 2024 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (IEEE CSL 2024)</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Autonomous Driving · ADP</span>
+        <h3>Automated Lane Changing in Mixed Traffic</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the Transportation Research Part B 2024 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (TR Part B 2024)</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Partial Observability · DoS</span>
+        <h3>Resilient Learning-Based Control for Partially Observable Systems</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IFAC ALCOS 2025 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (IFAC 2025)</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Cyber-Physical Transportation</span>
+        <h3>Experimental Results in Cyber-Physical Transportation Systems</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IEEE IV 2025 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (IEEE IV 2025)</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">Motion Planning · Active Suspension</span>
+        <h3>XYZ Motion Planning Using a Full Car Model</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IEEE ACC 2024 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (ACC 2024)</a>
+          <a href="#" class="pub-link">🔒 US Patent</a>
+        </div>
+      </div>
+
+      <div class="research-card fade-in">
+        <span class="research-tag">RL · CDC</span>
+        <h3>Resilient Learning-Based Control Under Denial-of-Service</h3>
+        <div class="desc-placeholder">
+          [Project description to be added — based on the IEEE CDC 2024 paper]
+        </div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">📄 Paper (CDC 2024)</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="section-label fade-in">Experience</div>
+    <h2 class="section-title fade-in">Professional Journey</h2>
+    <div class="timeline fade-in" style="margin-top: 2.5rem;">
+
+      <div class="timeline-item">
+        <div class="timeline-date">Fall 2021 — Present</div>
+        <h3>Graduate Research Assistant</h3>
+        <div class="location">Control and Networks (CAN) Lab, NYU — New York</div>
+        <p>
+          Leading research on adversarial reinforcement learning and secure decision-making for
+          cyber-physical systems. Designing attack-aware RL agents under partial observability
+          and worst-case disruptions, with provable stability and safety guarantees.
+          Deploying resilient control policies on real-time embedded platforms (NVIDIA Jetson AGX)
+          with multi-sensor fusion. Leading a team of 2 PhD and 2 master students.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">June 2023 — August 2023</div>
+        <h3>Control Systems Engineer Intern — 3D Motion Planning</h3>
+        <div class="location">ClearMotion — Billerica, Massachusetts</div>
+        <p>
+          Designed a real-time XYZ motion planner using a high-fidelity full-car model with active suspension.
+          Built perception-driven road representations from point-cloud data and formulated a
+          two-stage nonlinear optimization decomposition (XY path + vertical profile). Published at
+          ACC 2024 and filed a US patent.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label fade-in">Publications</div>
+    <h2 class="section-title fade-in">Selected Papers</h2>
+    <p class="section-desc fade-in">A selection of peer-reviewed journal and conference publications.</p>
+
+    <div class="pub-list">
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Journal</div>
+        <h4>A Small-Gain Look at Cyber-Physical Security</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong> and Zhong-Ping Jiang</p>
+        <p class="venue">IEEE Control Systems Letters, 2025</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Journal</div>
+        <h4>Robust Learning-Based Output Regulation Under Denial-of-Service Attacks</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong>, Weinan Gao, Kyriakos G. Vamvoudakis, and Zhong-Ping Jiang</p>
+        <p class="venue">IEEE Transactions on Automatic Control, 2025 (provisionally accepted)</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Journal</div>
+        <h4>Active Learning-Based Control for Resiliency of Uncertain Systems Under DoS Attacks</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong>, Weinan Gao, Kyriakos G. Vamvoudakis, and Zhong-Ping Jiang</p>
+        <p class="venue">IEEE Control Systems Letters, 2024</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Journal</div>
+        <h4>Automated Lane Changing Control in Mixed Traffic: An Adaptive Dynamic Programming Approach</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong>, Leilei Cui, Kaan Ozbay, and Zhong-Ping Jiang</p>
+        <p class="venue">Transportation Research Part B: Methodological, 2024</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Conference</div>
+        <h4>Resilient Learning-Based Control for Partially Observable Systems Under DoS Attacks</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong> and Zhong-Ping Jiang</p>
+        <p class="venue">15th IFAC Intl. Workshop on Adaptive and Learning Control Systems, 2025</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Conference</div>
+        <h4>Experimental Results in Cyber-Physical Transportation Systems: A Case Study in Cybersecurity</h4>
+        <p class="authors">Won Yong Ha, <strong>Sayan Chakraborty</strong>, Kaan Ozbay, and Zhong-Ping Jiang</p>
+        <p class="venue">IEEE 36th Intelligent Vehicles Symposium (IV), 2025</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Conference</div>
+        <h4>Resilient Learning-Based Control Under Denial-of-Service Attacks</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong>, Weinan Gao, Kyriakos G. Vamvoudakis, and Zhong-Ping Jiang</p>
+        <p class="venue">63rd IEEE Conference on Decision and Control (CDC), 2024</p>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-type">Conference</div>
+        <h4>On XYZ-Motion Planning Using a Full Car Model</h4>
+        <p class="authors"><strong>Sayan Chakraborty</strong>, Yu Jiang, and Zhong-Ping Jiang</p>
+        <p class="venue">IEEE American Control Conference (ACC), 2024</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="section-label fade-in">Education</div>
+    <h2 class="section-title fade-in">Academic Background</h2>
+    <div class="edu-grid" style="margin-top: 2rem;">
+
+      <div class="edu-card fade-in">
+        <div class="edu-icon">NYU</div>
+        <div>
+          <div class="period">Fall 2021 — Present (Expected May 2026)</div>
+          <h3>New York University</h3>
+          <div class="degree">Ph.D. Candidate, Electrical & Computer Engineering</div>
+          <div class="advisor">Advisor: Prof. Zhong-Ping Jiang</div>
+        </div>
+      </div>
+
+      <div class="edu-card fade-in">
+        <div class="edu-icon">IIT</div>
+        <div>
+          <div class="period">Fall 2018 — Spring 2021</div>
+          <h3>Indian Institute of Technology (IIT) Hyderabad</h3>
+          <div class="degree">Master of Technology, Electrical Engineering (Systems & Control)</div>
+          <div class="advisor">Advisors: Prof. C. P. Vyasarayani, Prof. K. P. Detroja</div>
+        </div>
+      </div>
+
+      <div class="edu-card fade-in">
+        <div class="edu-icon">NIT</div>
+        <div>
+          <div class="period">Fall 2013 — Spring 2017</div>
+          <h3>National Institute of Technology (NIT) Silchar</h3>
+          <div class="degree">Bachelor of Technology, Electrical Engineering</div>
+          <div class="advisor">Advisor: Prof. Rajeeb Dey</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="container">
+    <div class="section-label fade-in">Honors</div>
+    <h2 class="section-title fade-in">Awards & Recognition</h2>
+    <div class="awards-list" style="margin-top: 2rem;">
+      <div class="award-item fade-in">
+        <div class="award-year">2025</div>
+        <p><strong>Dr. Li Annual ECE Publication Award</strong> — Awarded for excellence in research, ECE Department, NYU.</p>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-year">2025</div>
+        <p><strong>ACC Student Travel Grant</strong> — American Control Conference 2025.</p>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-year">2025</div>
+        <p><strong>Best Poster Award</strong> — NYU Tandon ECE 2025 Best Poster Award.</p>
+      </div>
+      <div class="award-item fade-in">
+        <div class="award-year">2019</div>
+        <p><strong>Excellence in Research Award</strong> — Awarded by the Director of IIT Hyderabad, India.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PATENTS -->
+<section id="patents" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="section-label fade-in">Patents</div>
+    <h2 class="section-title fade-in">Intellectual Property</h2>
+    <div class="pub-list" style="margin-top: 2rem;">
+      <div class="pub-item fade-in">
+        <div class="pub-type">US Patent Application</div>
+        <h4>XYZ Motion Planning for Vehicles</h4>
+        <p class="authors">Yu Jiang, <strong>Sayan Chakraborty</strong>, Marco Giovanardi, and William Graves</p>
+        <p class="venue">US63 410 815, filed Apr. 28, 2023</p>
+      </div>
+      <div class="pub-item fade-in">
+        <div class="pub-type">Indian Patent</div>
+        <h4>Wireless Network Based Embedded Control Design Method for Actuators with Uncertain Delays</h4>
+        <p class="authors">Dipankar Deb, Rajeeb Dey, <strong>Sayan Chakraborty</strong>, and Santosh Mohan Rajkumar</p>
+        <p class="venue">Indian Patent, 2024</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label fade-in">Contact</div>
+    <h2 class="section-title fade-in">Let's Connect</h2>
+    <p class="section-desc fade-in">
+      I'm always open to discussing research collaborations, opportunities, or just exchanging ideas.
+    </p>
+    <div class="contact-grid fade-in">
+      <div>
+        <div class="contact-info-item">
+          <div class="contact-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+          </div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:sc8804@nyu.edu">sc8804@nyu.edu</a>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <h4>Phone</h4>
+            <p>+1 (929) 321-9816</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon">
+            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <h4>Address</h4>
+            <p>Control and Networks Lab<br>370 Jay St, Brooklyn, NY 11201</p>
+          </div>
+        </div>
+
+        <div class="social-links">
+          <a href="https://github.com/SayanChakraborty126" class="social-link" target="_blank" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sayanchakraborty126" class="social-link" target="_blank" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://scholar.google.com" class="social-link" target="_blank" aria-label="Google Scholar">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 100 14 7 7 0 000-14z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-map">
+        <div class="map-placeholder">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <p>NYU Tandon School of Engineering<br>370 Jay St, Brooklyn, NY 11201</p>
+          <!-- You can embed a Google Map iframe here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Sayan Chakraborty. Built with care.</p>
+</footer>
+
+<script>
+// Navbar scroll effect
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// Scroll-triggered fade-in
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
